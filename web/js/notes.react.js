@@ -14,7 +14,7 @@ var NoteSection = React.createClass({
         $.ajax({
             url: this.props.url,
             success: function (data) {
-                this.setState({notes: data.notes});
+                this.setState({notes: data.posts});
             }.bind(this)
         });
     },
@@ -23,7 +23,7 @@ var NoteSection = React.createClass({
         return (
             <div>
                 <div className="notes-container">
-                    <h2 className="notes-header">Notes</h2>
+                    <h2 className="notes-header">Posts</h2>
                     <div><i className="fa fa-plus plus-btn"></i></div>
                 </div>
                 <NoteList notes={this.state.notes} />
@@ -36,7 +36,7 @@ var NoteList = React.createClass({
     render: function() {
         var noteNodes = this.props.notes.map(function(note) {
             return (
-                <NoteBox username={note.username} avatarUri={note.avatarUri} date={note.date} key={note.id}>{note.note}</NoteBox>
+                <NoteBox username={note.username} postUri={note.url} avatarUri={note.avatarUri} date={note.date} key={note.id}>{note.note}</NoteBox>
             );
         });
 
@@ -56,7 +56,7 @@ var NoteBox = React.createClass({
                     <img src={this.props.avatarUri} className="img-circle" alt="Leanna!" />
                 </div>
                 <div className="cd-timeline-content">
-                    <h2><a href="#">{this.props.username}</a></h2>
+                    <h2><a href={this.props.postUri}>{this.props.username}</a></h2>
                     <p>{this.props.children}</p>
                     <span className="cd-date">{this.props.date}</span>
                 </div>
