@@ -1,3 +1,6 @@
+parameters:
+    cache_type: array
+
 imports:
     - { resource: config.yml }
 
