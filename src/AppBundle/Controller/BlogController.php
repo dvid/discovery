@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Post;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -22,6 +23,18 @@ class BlogController extends Controller
     {
         return $this->render('blog/index.html.twig', array(
             'posts' => $this->posts,
+        ));
+    }
+
+    /**
+     * @Route("/blog/new", name="blog_new")
+     */
+    public function newAction()
+    {
+        $post = new Post();
+
+        return $this->render('blog/new.html.twig', array(
+            'quote' => 'Quo vadis',
         ));
     }
 

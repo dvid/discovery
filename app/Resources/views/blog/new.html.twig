@@ -1,0 +1,10 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    <h1>New post</h1>
+    <h5>{{ quote|upper }}</h5>
+    <p>
+        Today is {{ 'now'|date('Y-m-d') }}
+    </p>
+    {{ include(':blog:_form.html.twig') }}
+{% endblock %}
