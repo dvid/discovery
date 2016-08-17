@@ -21,7 +21,7 @@ class Post
      */
     private $title;
     /**
-     * @ORM\Column(type="text", nullable=)
+     * @ORM\Column(type="text", nullable=true)
      */
     private $body;
     /**

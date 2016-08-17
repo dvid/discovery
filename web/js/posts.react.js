@@ -14,7 +14,7 @@ var NoteSection = React.createClass({
         $.ajax({
             url: this.props.url,
             success: function (data) {
-                this.setState({notes: data.notes});
+                this.setState({notes: data.posts});
             }.bind(this)
         });
     },

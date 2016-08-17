@@ -3,10 +3,12 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Post;
+use AppBundle\Form\PostType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 class BlogController extends Controller
 {
@@ -17,7 +19,7 @@ class BlogController extends Controller
     ];
 
     /**
-     * @Route("/blog")
+     * @Route("/blog", name="blog")
      */
     public function indexAction()
     {
@@ -29,12 +31,21 @@ class BlogController extends Controller
     /**
      * @Route("/blog/new", name="blog_new")
      */
-    public function newAction()
+    public function newAction(Request $request)
     {
         $post = new Post();
+        $form = $this->createForm(PostType::class, $post);
+
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            // todo do some work, like save ...
+            $this->addFlash('success', 'Sam would be proud');
+            return $this->redirectToRoute('blog', array());
+        }
 
         return $this->render('blog/new.html.twig', array(
             'quote' => 'Quo vadis',
+            'form' => $form->createView()
         ));
     }
 
