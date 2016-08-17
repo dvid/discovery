@@ -17,7 +17,7 @@
         <script src="{{ asset_url }}"></script>
 
         <script type="text/babel">
-            var notesUrl = '{{ path('blog_list') }}';
+            var notesUrl = '{{ path('blog_list', {'type':'json'}) }}';
             ReactDOM.render(
                     <NoteSection url={notesUrl} />,
                     document.getElementById('js-notes-wrapper')

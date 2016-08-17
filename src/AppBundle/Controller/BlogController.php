@@ -6,11 +6,10 @@ use AppBundle\Entity\Post;
 use AppBundle\Form\PostType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-class BlogController extends Controller
+class BlogController extends BaseController
 {
     private $posts = [
         ['id' => 1, 'title' => 'The octopus','username' => 'octopus', 'avatarUri' => '/images/leanna.jpeg', 'body' => 'Octopus asked me a riddle, outsmarted me', 'date' => 'Dec. 10, 2015', 'url' => ''],
@@ -38,8 +37,12 @@ class BlogController extends Controller
 
         $form->handleRequest($request);
         if ($form->isValid()) {
-            // todo do some work, like save ...
-            $this->addFlash('success', 'Sam would be proud');
+            $em = $this->getEntityManager();
+            $em->persist($post);
+            $em->flush();
+
+            $message = 'Sam would be proud';
+            $this->addFlash('success', $message);
             return $this->redirectToRoute('blog', array());
         }
 
@@ -50,21 +53,30 @@ class BlogController extends Controller
     }
 
     /**
-     * @Route("/blog/list/json", name="blog_list")
+     * @Route("/blog/list/{type}", name="blog_list")
      * @Method("GET")
      */
-    public function listAction()
+    public function listAction($type)
     {
+        if($type && $type == 'json') {
+            $data = [
+                'posts' => $this->posts
+            ];
 
-        $data = [
-            'posts' => $this->posts
-        ];
+            foreach ($data["posts"] as &$post) {
+                $post['url'] = '/blog/' . filter_var($post['title'], FILTER_SANITIZE_URL);
+            }
 
-        foreach ($data["posts"] as &$post){
-            $post['url'] = '/blog/'.filter_var($post['title'], FILTER_SANITIZE_URL);
+            return new JsonResponse($data);
+        } else {
+            $em = $this->getEntityManager();
+            $posts = $em->getRepository('AppBundle:Post')
+                ->findAll();
+
+            return $this->render(':blog:list.html.twig', array(
+                'posts' => $posts,
+            ));
         }
-
-        return new JsonResponse($data);
     }
 
     /**
