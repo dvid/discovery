@@ -47,7 +47,7 @@ class BlogController extends BaseController
         }
 
         return $this->render('blog/new.html.twig', array(
-            'quote' => 'Quo vadis',
+            'quote' => $this->get('quote_generator')->getRandomQuote(),
             'form' => $form->createView()
         ));
     }
