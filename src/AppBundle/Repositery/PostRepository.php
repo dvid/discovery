@@ -2,6 +2,7 @@
 
 namespace AppBundle\Repositery;
 
+use AppBundle\Entity\Post;
 use Doctrine\ORM\EntityRepository;
 
 /**
@@ -12,4 +13,15 @@ use Doctrine\ORM\EntityRepository;
  */
 class PostRepository extends EntityRepository
 {
+    /**
+     * @return Post[]
+     */
+    public function findAllPublishedOrderedByDate(){
+        return $this->createQueryBuilder('post')
+            ->andWhere('post.published = :published')
+            ->setParameter('published', true)
+            ->orderBy('post.date_updated', 'DESC')
+            ->getQuery()
+            ->execute();
+    }
 }

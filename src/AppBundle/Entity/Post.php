@@ -116,7 +116,7 @@ class Post
 
     public function getDateCreated()
     {
-        return $this->date_created;
+        return new \DateTime('-'.rand(0, 100).' days');
     }
 
     public function setDateCreated($date_created)
@@ -126,7 +126,7 @@ class Post
 
     public function getDateUpdated()
     {
-        return $this->date_updated;
+        return new \DateTime('-'.rand(0, 100).' days');
     }
 
     public function setDateUpdated($date_updated)
