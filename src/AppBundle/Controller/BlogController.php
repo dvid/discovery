@@ -85,16 +85,18 @@ class BlogController extends BaseController
      */
     public function postAction($title)
     {
-        foreach ($this->posts as $post)
-        {
-            $sanitized = filter_var($post['title'], FILTER_SANITIZE_URL);
-            if ($sanitized == $title)
-            {
-                return $this->render('blog/post.html.twig', array(
-                    'title' => $post["title"],
-                    'body'  => $post["body"]
-                ));
-            }
+        $em = $this->getDoctrine()->getManager();
+        $post = $em->getRepository('AppBundle:Post')
+            ->findOneBy(['title' => filter_var($title, FILTER_SANITIZE_URL)]);
+
+        if (!$post) {
+            $this->get('logger')
+                ->info('No route found: /blog/'.$title);
+            throw $this->createNotFoundException('post not found');
         }
+
+        return $this->render('blog/post.html.twig', array(
+            'post' => $post
+        ));
     }
 }

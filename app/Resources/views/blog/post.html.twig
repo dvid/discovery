@@ -1,15 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ title }}{% endblock %}
+{% block title %}{{ post.title }}{% endblock %}
 
 {% block body %}
-    <h2 class="genus-name">{{ title }}</h2>
+    <h2 class="genus-name">{{ post.title }}</h2>
     <div class="sea-creature-container">
         <div class="genus-photo"></div>
         <div class="genus-details">
             <dl class="genus-details-list">
                 <dt>body:</dt>
-                <dd>{{ body }}</dd>
+                <dd>{{ post.body }}</dd>
             </dl>
         </div>
     </div>
