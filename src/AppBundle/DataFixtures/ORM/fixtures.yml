@@ -1,0 +1,5 @@
+AppBundle\Entity\Post:
+    post_{1..10}:
+        title: <title()>
+        body: <text(20)>
+        published: 1
