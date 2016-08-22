@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Repositery;
+namespace AppBundle\Repository;
 
 use AppBundle\Entity\Post;
 use Doctrine\ORM\EntityRepository;
