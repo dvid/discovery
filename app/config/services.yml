@@ -18,3 +18,9 @@ services:
             - { name: twig.extension }
         #arguments: ['@markdown_transformer']
         autowire: true
+
+    app.listener.command_exception:
+        class: AppBundle\EventListener\ConsoleExceptionListener
+        arguments: ['@logger']
+        tags:
+            - { name: kernel.event_listener, event: console.exception }
