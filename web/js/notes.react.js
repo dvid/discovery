@@ -23,7 +23,7 @@ var NoteSection = React.createClass({
         return (
             <div>
                 <div className="notes-container">
-                    <h2 className="notes-header">Posts</h2>
+                    <h2 className="notes-header">Genus</h2>
                     <div><i className="fa fa-plus plus-btn"></i></div>
                 </div>
                 <NoteList notes={this.state.notes} />

@@ -4,6 +4,8 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Genus;
 use AppBundle\Entity\GenusNote;
+use AppBundle\Entity\SubFamily;
+use AppBundle\Service\MarkdownTransformer;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -17,10 +19,16 @@ class GenusController extends Controller
      */
     public function newAction()
     {
+        $em = $this->getDoctrine()->getManager();
+        $subFamily = $em->getRepository('AppBundle:SubFamily')
+            ->findOneBy(['name' => 'Octopodidae']);
+
         $genus = new Genus();
         $genus->setName('Octopus'.rand(1, 100));
-        $genus->setSubFamily('Octopodinae');
+        $genus->setSubFamily($subFamily);
         $genus->setSpeciesCount(rand(100, 99999));
+        $genus->setFirstDiscoveredAt(new \DateTime('-1 month'));
+        $genus->setIsPublished(1);
 
         $genusNote = new GenusNote();
         $genusNote->setUsername('AquaWeaver');
@@ -29,7 +37,6 @@ class GenusController extends Controller
         $genusNote->setCreatedAt(new \DateTime('-1 month'));
         $genusNote->setGenus($genus);
 
-        $em = $this->getDoctrine()->getManager();
         $em->persist($genus);
         $em->persist($genusNote);
         $em->flush();
@@ -66,8 +73,8 @@ class GenusController extends Controller
             throw $this->createNotFoundException('genus not found');
         }
 
-        //$markdownTransformer = $this->get('markdown_transformer');
-        //$funfact = $markdownTransformer->parse($genus->getFunFact());
+        $markdownTransformer = $this->get('markdown_transformer');
+        $funFact = $markdownTransformer->parse($genus->getFunFact());
 
         $this->get('logger')
             ->info('Showing genus: '.$genusName);
@@ -77,6 +84,7 @@ class GenusController extends Controller
 
         return $this->render('genus/show.html.twig', array(
             'genus' => $genus,
+            'funFact' => $funFact,
             'recentNoteCount' => count($recentNotes)
         ));
     }

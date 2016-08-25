@@ -1,10 +1,11 @@
 <?php
+
 namespace AppBundle\DataFixtures\ORM;
 
-use Nelmio\Alice\Fixtures;
-use AppBundle\Entity\Post;
+use AppBundle\Entity\Genus;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Nelmio\Alice\Fixtures;
 
 class LoadFixtures implements FixtureInterface
 {
@@ -17,17 +18,6 @@ class LoadFixtures implements FixtureInterface
                 'providers' => [$this]
             ]
         );
-
-        /*
-        $post = new Post();
-        $post->setTitle('Test'.rand(1, 100));
-        $post->setBody('Testing...');
-        $post->setPublished(1);
-        $post->setDateCreated(new \DateTime('-'.rand(0, 100).' days'));
-        $post->setDateUpdated(new \DateTime('-'.rand(0, 100).' days'));
-        $manager->persist($post);
-        $manager->flush();
-        */
     }
 
     public function genus()
